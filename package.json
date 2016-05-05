@@ -1,0 +1,38 @@
+{
+  "name": "relay-web-sockets",
+  "version": "0.0.0",
+  "description": "Universal extension of React styles.",
+  "main": "lib/index.js",
+  "scripts": {
+    "prebuild": "rm -rf lib",
+    "build": "babel -d lib src",
+    "build:watch": "babel -d lib src -w",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tuckerconnelly/uranium.git"
+  },
+  "homepage": "https://github.com/tuckerconnelly/uranium.git",
+  "keywords": [
+    "react",
+    "uranium"
+  ],
+  "author": "Tucker Connelly <web@tuckerconnelly.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.4.0",
+    "babel-core": "^6.4.0",
+    "babel-eslint": "^4.1.8",
+    "babel-preset-react-native": "^1.5.3",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^5.0.0",
+    "eslint-plugin-babel": "^3.1.0",
+    "eslint-plugin-react": "^3.14.0"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "uid-safe": "^2.1.1",
+    "ws": "^1.1.0"
+  }
+}
