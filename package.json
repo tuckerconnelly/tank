@@ -1,8 +1,8 @@
 {
-  "name": "relay-web-sockets",
+  "name": "ws-request-response",
   "version": "0.0.0",
-  "description": "Universal extension of React styles.",
-  "main": "lib/index.js",
+  "description": "Request-response library for WebSockets.",
+  "main": "lib/client.js",
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel -d lib src",
@@ -15,8 +15,10 @@
   },
   "homepage": "https://github.com/tuckerconnelly/uranium.git",
   "keywords": [
+    "websockets",
+    "node",
     "react",
-    "uranium"
+    "relay"
   ],
   "author": "Tucker Connelly <web@tuckerconnelly.com>",
   "license": "MIT",
