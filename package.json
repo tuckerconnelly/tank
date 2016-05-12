@@ -2,7 +2,7 @@
   "name": "ws-request-response",
   "version": "0.0.0",
   "description": "Request-response library for WebSockets.",
-  "main": "lib/client.js",
+  "main": "lib/Client.js",
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel -d lib src",
@@ -34,6 +34,7 @@
   },
   "peerDependencies": {},
   "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.0",
     "uid-safe": "^2.1.1",
     "ws": "^1.1.0"
   }

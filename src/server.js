@@ -8,7 +8,7 @@ class MemoryRedis {
   expire() {}
 }
 
-async function makeSID(store) {
+export async function makeSID(store) {
   const sid = uid.sync(24)
 
   return store.set(sid, {})
@@ -20,35 +20,36 @@ const defaultOpts = {
   sidStore: new MemoryRedis(),
 }
 
-export default (server, commands, opts) => {
+export default (server, requests, opts) => {
   const wss = new WebSocket.Server({ server })
 
   opts = { ...defaultOpts, ...opts }
 
-  // Add getSID command
-  commands = { ...commands, getSID: makeSID.bind(null, opts.sidStore) }
+  // Add sid request
+  requests = { ...requests, sid: makeSID.bind(null, opts.sidStore) }
 
   wss.on('connection', ws => {
     ws.on('message', async function(jsonMessage) {
-      const { messageID, sid, command, data } = JSON.parse(jsonMessage)
+      const { id, sid, name, data } = JSON.parse(jsonMessage)
 
-      let foundCommandAction
-      for (const availableCommand in commands) {
-        if (command === availableCommand) {
-          foundCommandAction = commands[availableCommand]
+      let requestAction
+      for (const availableRequest in requests) {
+        if (!{}.hasOwnProperty.call(requests, availableRequest)) return
+        if (name === availableRequest) {
+          requestAction = requests[availableRequest]
           break
         }
       }
 
-      if (foundCommandAction === undefined) {
-        throw new Error('Command not recognized')
+      if (requestAction === undefined) {
+        throw new Error('Request not recognized')
       }
 
       try {
-        const result = await foundCommandAction(sid, data)
-        ws.send(JSON.stringify({ messageID, result }))
+        const result = await requestAction(sid, data)
+        ws.send(JSON.stringify({ id, result }))
       } catch (error) {
-        ws.send(JSON.stringify({ messageID, error }))
+        ws.send(JSON.stringify({ id, error }))
       }
     })
   })
