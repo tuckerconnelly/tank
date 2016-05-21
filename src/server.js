@@ -41,15 +41,14 @@ export default (server, requests, opts) => {
         }
       }
 
-      if (requestAction === undefined) {
-        throw new Error('Request not recognized')
-      }
-
       try {
+        if (requestAction === undefined) throw new Error('Request not recognized')
         const result = await requestAction(sid, data)
         ws.send(JSON.stringify({ id, result }))
-      } catch (error) {
-        ws.send(JSON.stringify({ id, error }))
+      } catch (err) {
+        let message = err
+        if (err instanceof Error) message = err.message
+        ws.send(JSON.stringify({ id, error: message }))
       }
     })
   })
