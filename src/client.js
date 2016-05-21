@@ -1,7 +1,7 @@
 const CONNECTING_CHECK_INTERVAL = 10
 const CONNECTION_TIMEOUT = 10000
 
-export { default as WSProvider } from './WSProvider'
+export { default as WSRRProvider } from './WSRRProvider'
 
 export default class WSRRClient {
   currentID = 0;

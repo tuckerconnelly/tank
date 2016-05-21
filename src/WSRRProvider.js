@@ -7,7 +7,7 @@ const mockWSRR = {
   request: () => Promise.resolve(),
 }
 
-class WSProvider extends Component {
+class WSRRProvider extends Component {
   constructor(props, context) {
     super(props, context)
     this.ws = props.ws
@@ -22,17 +22,17 @@ class WSProvider extends Component {
   }
 }
 
-WSProvider.propTypes = {
+WSRRProvider.propTypes = {
   ws: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
 }
 
-WSProvider.defaultProps = {
+WSRRProvider.defaultProps = {
   ws: mockWSRR,
 }
 
-WSProvider.childContextTypes = {
+WSRRProvider.childContextTypes = {
   ws: PropTypes.object,
 }
 
-export default WSProvider
+export default WSRRProvider
