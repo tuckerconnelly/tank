@@ -34,27 +34,10 @@ export default class WSRRClient {
     })
   }
 
-  _makeSureSIDExists() {
-    if (this.sid) return Promise.resolve()
-
-    return this.opts.getSID()
-      .then(sid => {
-        if (sid) return sid
-        return this.request('sid', null, true)
-      })
-      .then(sid => {
-        this.sid = sid
-        return this.opts.setSID(sid)
-      })
-  }
-
-  request(name, data, skipChecks) {
-    const doChecks = () => skipChecks ?
-      Promise.resolve() :
-      this._makeSureConnected().then(this._makeSureSIDExists.bind(this))
-
-    return doChecks()
-      .then(() => new Promise((resolve, reject) => {
+  request(name, data) {
+    return this._makeSureConnected()
+      .then(this.opts.getSID)
+      .then(sid => new Promise((resolve, reject) => {
         const id = ++this.currentID
 
         // One-off listener for this message
@@ -65,11 +48,16 @@ export default class WSRRClient {
           this.ws.removeEventListener('message', listener)
 
           if (response.error) return reject(response.error)
+          // If the server returns a different sid, update it here, client-side
+          if (sid !== response.sid) {
+            return this.opts.setSID(response.sid)
+              .then(() => resolve(response.result))
+          }
           resolve(response.result)
         }
 
         this.ws.addEventListener('message', listener)
-        this.ws.send(JSON.stringify({ sid: this.sid, id, name, data }))
+        this.ws.send(JSON.stringify({ sid, id, name, data }))
       }))
   }
 }

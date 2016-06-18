@@ -8,12 +8,23 @@ class MemoryRedis {
   expire() {}
 }
 
-export async function makeSID(store) {
+export async function createSession(store) {
   const sid = uid.sync(24)
 
   return store.set(sid, {})
     .then(() => store.expire(sid, global.SESSION_TTL))
     .then(() => sid)
+}
+
+export function bindTo(commands, ...objectsToBind) {
+  return Object.keys(commands).reduce((accumulator, current) => ({
+    ...accumulator,
+    // Bind an array of args to a function
+    // See http://stackoverflow.com/questions/21507320/using-function-prototype-bind-with-an-array-of-arguments
+    [current]: commands[current].bind.apply(
+      commands[current], [null].concat(objectsToBind)
+    ),
+  }), {})
 }
 
 const defaultOpts = {
@@ -24,9 +35,6 @@ export default (server, requests, opts) => {
   const wss = new WebSocket.Server({ server })
 
   opts = { ...defaultOpts, ...opts }
-
-  // Add sid request
-  requests = { ...requests, sid: makeSID.bind(null, opts.sidStore) }
 
   wss.on('connection', ws => {
     ws.on('message', async function(jsonMessage) {
@@ -43,8 +51,13 @@ export default (server, requests, opts) => {
 
       try {
         if (requestAction === undefined) throw new Error('Request not recognized')
-        const result = await requestAction(sid, data)
-        ws.send(JSON.stringify({ id, result }))
+
+        // Ensure there's a session
+        const session = await opts.sidStore.get(sid)
+        const guaranteedSID = session ? sid : await createSession(opts.sidStore)
+
+        const result = await requestAction(guaranteedSID, data)
+        ws.send(JSON.stringify({ id, sid: guaranteedSID, result }))
       } catch (err) {
         let message = err
         if (err instanceof Error) message = err.message
