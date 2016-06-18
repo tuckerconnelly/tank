@@ -10,11 +10,11 @@ const mockWSRR = {
 class WSRRProvider extends Component {
   constructor(props, context) {
     super(props, context)
-    this.ws = props.ws
+    this.wsrr = props.wsrr
   }
 
   getChildContext() {
-    return { ws: this.ws }
+    return { wsrr: this.wsrr }
   }
 
   render() {
@@ -23,16 +23,16 @@ class WSRRProvider extends Component {
 }
 
 WSRRProvider.propTypes = {
-  ws: PropTypes.object.isRequired,
+  wsrr: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
 }
 
 WSRRProvider.defaultProps = {
-  ws: mockWSRR,
+  wsrr: mockWSRR,
 }
 
 WSRRProvider.childContextTypes = {
-  ws: PropTypes.object,
+  wsrr: PropTypes.object,
 }
 
 export default WSRRProvider
