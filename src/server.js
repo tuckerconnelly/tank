@@ -1,5 +1,4 @@
 import uid from 'uid-safe'
-import WebSocket from 'ws'
 
 class MemoryRedis {
   store = {};
@@ -11,7 +10,7 @@ class MemoryRedis {
 export async function createSession(store) {
   const sid = uid.sync(24)
 
-  return store.set(sid, {})
+  return store.set(sid, JSON.stringify({}))
     .then(() => store.expire(sid, global.SESSION_TTL))
     .then(() => sid)
 }
@@ -31,14 +30,12 @@ const defaultOpts = {
   sidStore: new MemoryRedis(),
 }
 
-export default (server, requests, opts) => {
-  const wss = new WebSocket.Server({ server })
-
+export default (wss, requests, opts) => {
   opts = { ...defaultOpts, ...opts }
 
   wss.on('connection', ws => {
     ws.on('message', async function(jsonMessage) {
-      const { id, sid, name, data } = JSON.parse(jsonMessage)
+      const { id, sid, name, payload, extra } = JSON.parse(jsonMessage)
 
       let requestAction
       for (const availableRequest in requests) {
@@ -56,7 +53,7 @@ export default (server, requests, opts) => {
         const session = await opts.sidStore.get(sid)
         const guaranteedSID = session ? sid : await createSession(opts.sidStore)
 
-        const result = await requestAction(guaranteedSID, data)
+        const result = await requestAction(guaranteedSID, payload, extra)
         ws.send(JSON.stringify({ id, sid: guaranteedSID, result }))
       } catch (err) {
         let message = err

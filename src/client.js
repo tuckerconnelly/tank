@@ -9,6 +9,7 @@ export default class WSRRClient {
   opts = {
     getSID: () => Promise.resolve(this.sid),
     setSID: sid => Promise.resolve(this.sid = sid),
+    getExtra: () => ({}),
   }
 
   constructor(ws, opts) {
@@ -34,9 +35,10 @@ export default class WSRRClient {
     })
   }
 
-  request(name, data) {
+  request(name, payload) {
+    const { getSID, setSID, getExtra } = this.opts
     return this._makeSureConnected()
-      .then(this.opts.getSID)
+      .then(getSID)
       .then(sid => new Promise((resolve, reject) => {
         const id = ++this.currentID
 
@@ -50,14 +52,13 @@ export default class WSRRClient {
           if (response.error) return reject(response.error)
           // If the server returns a different sid, update it here, client-side
           if (sid !== response.sid) {
-            return this.opts.setSID(response.sid)
-              .then(() => resolve(response.result))
+            return setSID(response.sid).then(() => resolve(response.result))
           }
           resolve(response.result)
         }
 
         this.ws.addEventListener('message', listener)
-        this.ws.send(JSON.stringify({ sid, id, name, data }))
+        this.ws.send(JSON.stringify({ sid, id, name, payload, extra: getExtra() }))
       }))
   }
 }
