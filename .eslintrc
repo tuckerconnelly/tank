@@ -24,6 +24,8 @@
     "consistent-return": 0,
 
     "react/jsx-closing-bracket-location": [1, "after-props"],
+
+    "import/no-extraneous-dependencies": 0
   },
 
   "ecmaFeatures": {

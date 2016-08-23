@@ -1,7 +1,7 @@
 {
-  "name": "ws-request-response",
+  "name": "ops",
   "version": "0.0.0",
-  "description": "Request-response library for WebSockets.",
+  "description": "Request-response and subscription library for WebSockets.",
   "main": "lib/Client.js",
   "scripts": {
     "prebuild": "rm -rf lib",
@@ -11,9 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tuckerconnelly/uranium.git"
+    "url": "https://github.com/tuckerconnelly/ops.git"
   },
-  "homepage": "https://github.com/tuckerconnelly/uranium.git",
+  "homepage": "https://github.com/tuckerconnelly/ops.git",
   "keywords": [
     "websockets",
     "node",
@@ -23,19 +23,22 @@
   "author": "Tucker Connelly <web@tuckerconnelly.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.4.0",
-    "babel-core": "^6.4.0",
-    "babel-eslint": "^4.1.8",
-    "babel-preset-react-native": "^1.5.3",
-    "eslint": "^1.10.3",
-    "eslint-config-airbnb": "^5.0.0",
-    "eslint-plugin-babel": "^3.1.0",
-    "eslint-plugin-react": "^3.14.0"
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-react-native": "^1.9.0",
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.1.2"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "ws": "^1.1.1"
+  },
   "dependencies": {
-    "babel-plugin-add-module-exports": "^0.2.0",
-    "uid-safe": "^2.1.1",
-    "ws": "^1.1.0"
+    "uid-safe": "^2.1.2"
   }
 }

@@ -1,5 +1,4 @@
-import React from 'react'
-const { Component, PropTypes, Children } = React
+import { Component, PropTypes, Children } from 'react'
 
 const mockWSRR = {
   send: () => 0,
