@@ -2,8 +2,8 @@ export { default as OpsProvider } from './OpsProvider'
 
 export class MemorySIDStore {
   _sid: null
-  async getSID() { return this._sid }
-  async setSID(sid) { this._sid = sid }
+  async get() { return this._sid }
+  async set(sid) { this._sid = sid }
 }
 
 export default class OpsClient {
@@ -40,9 +40,8 @@ export default class OpsClient {
   }
 
   request(name, payload) {
-    const { getSID, setSID } = this._sidStore
     return this._makeSureConnected()
-      .then(getSID)
+      .then(this._sidStore.get)
       .then(_sid => new Promise((resolve, reject) => {
         const id = ++this._currentRequestID
 
@@ -61,7 +60,7 @@ export default class OpsClient {
 
           // If the server returns a different _sid, update it here, client-side
           if (_sid !== response._sid) {
-            setSID(response._sid).then(() => resolve(response.result))
+            this._sidStore.set(response._sid).then(() => resolve(response.result))
             return
           }
 
