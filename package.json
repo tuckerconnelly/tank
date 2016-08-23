@@ -2,7 +2,7 @@
   "name": "ops",
   "version": "0.0.0",
   "description": "Request-response and subscription library for WebSockets.",
-  "main": "lib/Client.js",
+  "main": "lib/index.js",
   "scripts": {
     "prebuild": "rm -rf lib",
     "build": "babel -d lib src",

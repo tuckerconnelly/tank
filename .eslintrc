@@ -22,10 +22,17 @@
     "no-param-reassign": 0,
     "func-names": 0,
     "consistent-return": 0,
+    "generator-star-spacing": 0,
+    "no-underscore-dangle": 0,
 
     "react/jsx-closing-bracket-location": [1, "after-props"],
 
     "import/no-extraneous-dependencies": 0
+  },
+
+  "env": {
+    "browser": true,
+    "node": true
   },
 
   "ecmaFeatures": {
