@@ -7,7 +7,7 @@ export class MemorySessionManager {
 }
 
 export default class OpsServer {
-  constructor(requests, wss, sessionManager) {
+  constructor(wss, sessionManager, requests) {
     this._sessionManager = sessionManager
 
     wss.on('connection', ws => {
