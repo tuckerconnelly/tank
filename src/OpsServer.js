@@ -1,9 +1,21 @@
 import uid from 'uid-safe'
 
+// Defaut implementation of a SessionManager
+// `get()` is an async function that always returns a session with an sid.
+// If the passed sid is blank or not found, it returns a new session
 export class MemorySessionManager {
-  store = {};
-  get(key) { return this.store[key] }
-  set(key, value) { this.store[key] = value }
+  _store = {};
+
+  async get(sid) {
+    let guaranteedSID = sid
+
+    if (!guaranteedSID || !this._store[guaranteedSID]) {
+      guaranteedSID = uid.sync(24)
+      this._store[guaranteedSID] = { sid: guaranteedSID }
+    }
+
+    return this._store[guaranteedSID]
+  }
 }
 
 export default class OpsServer {
@@ -11,11 +23,11 @@ export default class OpsServer {
     this._sessionManager = sessionManager
 
     wss.on('connection', ws => {
-      ws.on('message', async function(jsonMessage) {
+      ws.on('message', async jsonMessage => {
         const { id, sid, name, payload, extra } = JSON.parse(jsonMessage)
 
         let requestAction
-        requests.forEach(availableRequest => {
+        Object.keys(requests).forEach(availableRequest => {
           if (name === availableRequest) requestAction = requests[availableRequest]
         })
 
@@ -24,10 +36,9 @@ export default class OpsServer {
 
           // Ensure there's a session
           const session = await sessionManager.get(sid)
-          const guaranteedSID = session ? sid : await this._createSession(sessionManager)
 
-          const result = await requestAction(guaranteedSID, payload, extra)
-          ws.send(JSON.stringify({ id, sid: guaranteedSID, result }))
+          const result = await requestAction(session.sid, payload, extra)
+          ws.send(JSON.stringify({ id, sid: session.sid, result }))
         } catch (err) {
           let message = err
           if (err instanceof Error) message = err.message
@@ -35,11 +46,5 @@ export default class OpsServer {
         }
       })
     })
-  }
-
-  async _createSession() {
-    const sid = uid.sync(24)
-    await this._sessionManager.set(sid, JSON.stringify({}))
-    return sid
   }
 }
