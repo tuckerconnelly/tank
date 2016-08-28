@@ -8,7 +8,7 @@ export class MemorySIDStore {
 
 export default class OpsClient {
   static CONNECTING_CHECK_INTERVAL = 10
-  static CONNECTING_CHECK_INTERVAL = 10
+  static CONNECTION_TIMEOUT = 10000
 
   _currentRequestID = 0
 
