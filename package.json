@@ -1,6 +1,6 @@
 {
   "name": "ops",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Request-response and subscription library for WebSockets.",
   "main": "lib/index.js",
   "scripts": {
