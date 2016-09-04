@@ -59,8 +59,8 @@ export default class OpsClient {
           }
 
           // If the server returns a different _sid, update it here, client-side
-          if (_sid !== response._sid) {
-            this._sidStore.set(response._sid).then(() => resolve(response.result))
+          if (_sid !== response.sid) {
+            this._sidStore.set(response.sid).then(() => resolve(response.result))
             return
           }
 
@@ -68,7 +68,7 @@ export default class OpsClient {
         }
 
         this._ws.addEventListener('message', listener)
-        this._ws.send(JSON.stringify({ _sid, id, name, payload, extra: this._getExtra() }))
+        this._ws.send(JSON.stringify({ sid: _sid, id, name, payload, extra: this._getExtra() }))
       }))
   }
 }
