@@ -1,4 +1,4 @@
-import uid from 'uid-safe'
+import uuid from 'uuid'
 
 // Defaut implementation of a SessionManager
 // `get()` is an async function that always returns a session with an sid.
@@ -10,7 +10,7 @@ export class MemorySessionManager {
     let guaranteedSID = sid
 
     if (!guaranteedSID || !this._store[guaranteedSID]) {
-      guaranteedSID = uid.sync(24)
+      guaranteedSID = uuid.v4()
       this._store[guaranteedSID] = { sid: guaranteedSID }
     }
 
