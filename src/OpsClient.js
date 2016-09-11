@@ -1,5 +1,3 @@
-export { default as OpsProvider } from './OpsProvider'
-
 export class MemorySIDStore {
   _sid: null
   async get() { return this._sid }
