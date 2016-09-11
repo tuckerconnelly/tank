@@ -1,3 +1,5 @@
+if (!WebSocket) var WebSocket = require('ws') // eslint-disable-line
+
 export class MemorySIDStore {
   _sid: null
   async get() { return this._sid }
@@ -45,7 +47,7 @@ export default class OpsClient {
 
         // One-off listener for this message
         const listener = message => {
-          const response = JSON.parse(message.data)
+          const response = JSON.parse(message.data || message)
 
           if (response.id !== id) return
 
