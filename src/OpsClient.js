@@ -1,5 +1,3 @@
-if (!WebSocket) var WebSocket = require('ws') // eslint-disable-line
-
 export class MemorySIDStore {
   _sid: null
   async get() { return this._sid }
@@ -20,7 +18,7 @@ export default class OpsClient {
 
   _makeSureConnected() {
     return new Promise((resolve, reject) => {
-      if (this._ws.readyState === WebSocket.OPEN) {
+      if (this._ws.readyState === 1) { // 1 === WebSocket.OPEN
         resolve()
         return
       }
@@ -31,7 +29,7 @@ export default class OpsClient {
       }, OpsClient.CONNECTION_TIMEOUT)
 
       const checkInterval = setInterval(() => {
-        if (this._ws.readyState !== WebSocket.OPEN) return
+        if (this._ws.readyState !== 1) return // 1 === WebSocket.OPEN
         clearTimeout(timeout)
         clearInterval(checkInterval)
         resolve()
