@@ -4,7 +4,7 @@ export class MemorySIDStore {
   async set(sid) { this._sid = sid }
 }
 
-export default class OpsClient {
+export default class TankClient {
   static CONNECTING_CHECK_INTERVAL = 10
   static CONNECTION_TIMEOUT = 10000
 
@@ -26,14 +26,14 @@ export default class OpsClient {
       const timeout = setTimeout(() => {
         clearInterval(checkInterval) // eslint-disable-line no-use-before-define
         reject('WebSocket connection timed out.')
-      }, OpsClient.CONNECTION_TIMEOUT)
+      }, TankClient.CONNECTION_TIMEOUT)
 
       const checkInterval = setInterval(() => {
         if (this._ws.readyState !== 1) return // 1 === WebSocket.OPEN
         clearTimeout(timeout)
         clearInterval(checkInterval)
         resolve()
-      }, OpsClient.CONNECTING_CHECK_INTERVAL)
+      }, TankClient.CONNECTING_CHECK_INTERVAL)
     })
   }
 

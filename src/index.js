@@ -1,3 +1,3 @@
-export { default as OpsProvider } from './OpsProvider'
-export { default as OpsServer, MemorySessionManager } from './OpsServer'
-export { default, MemorySIDStore } from './OpsClient'
+export { default as TankProvider } from './TankProvider'
+export { default as TankServer, MemorySessionManager } from './TankServer'
+export { default, MemorySIDStore } from './TankClient'

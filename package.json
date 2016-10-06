@@ -1,6 +1,6 @@
 {
-  "name": "ops",
-  "version": "0.0.4",
+  "name": "tank",
+  "version": "0.0.5",
   "description": "Request-response and subscription library for WebSockets.",
   "main": "lib/index.js",
   "scripts": {
@@ -11,9 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tuckerconnelly/ops.git"
+    "url": "https://github.com/tuckerconnelly/tank.git"
   },
-  "homepage": "https://github.com/tuckerconnelly/ops.git",
+  "homepage": "https://github.com/tuckerconnelly/tank.git",
   "keywords": [
     "websockets",
     "node",

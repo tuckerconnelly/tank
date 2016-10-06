@@ -18,7 +18,7 @@ export class MemorySessionManager {
   }
 }
 
-export default class OpsServer {
+export default class TankServer {
   constructor(wss, sessionManager, requests) {
     this._sessionManager = sessionManager
 
