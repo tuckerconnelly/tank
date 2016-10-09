@@ -1,6 +1,6 @@
 {
   "name": "tank",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Request-response and subscription library for WebSockets.",
   "main": "lib/index.js",
   "scripts": {
