@@ -1,10 +1,10 @@
-import uuid from 'uuid'
-import EventEmitter from 'eventemitter3'
+const uuid = require('uuid')
+const EventEmitter = require('eventemitter3')
 
 // Defaut implementation of a SessionManager
 // `get()` is an async function that always returns a session with an sid.
 // If the passed sid is blank or not found, it returns a new session
-export class MemorySessionManager {
+class MemorySessionManager {
   _store = {};
 
   async get(sid) {
@@ -19,7 +19,7 @@ export class MemorySessionManager {
   }
 }
 
-export default class TankServer extends EventEmitter {
+class TankServer extends EventEmitter {
   constructor(wss, sessionManager, requests) {
     super()
 
@@ -64,3 +64,6 @@ export default class TankServer extends EventEmitter {
     })
   }
 }
+
+module.exports = TankServer
+module.exports.MemorySessionManager = MemorySessionManager

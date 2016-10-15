@@ -1,4 +1,5 @@
-import { Component, PropTypes, Children } from 'react'
+const React = require('react')
+const { Component, PropTypes, Children } = React
 
 class TankProvider extends Component {
   getChildContext() { return { tank: this.props.tank } }
@@ -18,4 +19,4 @@ TankProvider.defaultProps = {
 }
 TankProvider.childContextTypes = { tank: PropTypes.object }
 
-export default TankProvider
+module.exports = TankProvider

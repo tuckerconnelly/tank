@@ -1,10 +1,10 @@
-export class MemorySIDStore {
+class MemorySIDStore {
   _sid: null
   async get() { return this._sid }
   async set(sid) { this._sid = sid }
 }
 
-export default class TankClient {
+class TankClient {
   static CONNECTING_CHECK_INTERVAL = 10
   static CONNECTION_TIMEOUT = 10000
 
@@ -70,3 +70,6 @@ export default class TankClient {
       }))
   }
 }
+
+module.exports = TankClient
+module.exports.MemorySIDStore = MemorySIDStore

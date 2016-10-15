@@ -1,3 +1,5 @@
-export { default as TankProvider } from './TankProvider'
-export { default as TankServer, MemorySessionManager } from './TankServer'
-export { default, MemorySIDStore } from './TankClient'
+module.exports = require('./TankClient')
+module.exports.MemorySIDStore = require('./TankClient').MemorySIDStore
+module.exports.TankProvider = require('./TankProvider')
+module.exports.TankServer = require('./TankServer')
+module.exports.MemorySessionManager = require('./TankServer').MemorySessionManager
